@@ -5,8 +5,12 @@ const {
   getTrafoByKey,
   createTrafo,
   updateTrafo,
-  deleteTrafo
+  deleteTrafo,
+  getNearbyTrafos
 } = require('../controllers/materialTekController');
+
+// GET nearby harus di atas supaya tidak tertangkap :lokasi/:nama
+router.get('/nearby', getNearbyTrafos);
 
 // GET all
 router.get('/', getTrafos);

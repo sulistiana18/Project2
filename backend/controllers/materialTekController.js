@@ -1,63 +1,80 @@
 const db = require('../config/db');
 
-// GET all materialTek
-const getTrafos = (req, res) => {
-  db.query('SELECT * FROM material_tek', (err, results) => {
-    if (err) return res.status(500).json({ error: err.message });
+// GET all
+exports.getTrafos = (req, res) => {
+  const sql = 'SELECT * FROM material_tek';
+  db.query(sql, (err, results) => {
+    if (err) return res.status(500).json(err);
     res.json(results);
   });
 };
 
-// GET single materialTek by LOKASI + NAMA
-const getTrafoByKey = (req, res) => {
+// GET by LOKASI + NAMA
+exports.getTrafoByKey = (req, res) => {
   const { lokasi, nama } = req.params;
-  db.query(
-    'SELECT * FROM material_tek WHERE LOKASI=? AND NAMA=?',
-    [lokasi, nama],
-    (err, results) => {
-      if (err) return res.status(500).json({ error: err.message });
-      if (results.length === 0) return res.status(404).json({ error: 'Trafo not found' });
-      res.json(results[0]);
-    }
-  );
-};
-
-// POST create new materialTek
-const createTrafo = (req, res) => {
-  const { LOKASI, ALAMAT, NAMA, KOORDINAT_X, KOORDINAT_Y, BESAR_TRAFO } = req.body;
-
-  if (!LOKASI || !ALAMAT || !NAMA || !KOORDINAT_X || !KOORDINAT_Y || !BESAR_TRAFO) {
-    return res.status(400).json({ error: 'All fields are required' });
-  }
-
-  const sql = 'INSERT INTO material_tek (LOKASI, ALAMAT, NAMA, KOORDINAT_X, KOORDINAT_Y, BESAR_TRAFO) VALUES (?, ?, ?, ?, ?, ?)';
-  db.query(sql, [LOKASI, ALAMAT, NAMA, KOORDINAT_X, KOORDINAT_Y, BESAR_TRAFO], (err, result) => {
-    if (err) return res.status(500).json({ error: err.message });
-    res.status(201).json({ LOKASI, ALAMAT, NAMA, KOORDINAT_X, KOORDINAT_Y, BESAR_TRAFO });
+  const sql = 'SELECT * FROM material_tek WHERE LOKASI = ? AND NAMA = ?';
+  db.query(sql, [lokasi, nama], (err, results) => {
+    if (err) return res.status(500).json(err);
+    if (results.length === 0) return res.status(404).json({ message: 'Trafo not found' });
+    res.json(results[0]);
   });
 };
 
-// PUT update materialTek by LOKASI + NAMA
-const updateTrafo = (req, res) => {
+// CREATE
+exports.createTrafo = (req, res) => {
+  const { LOKASI, ALAMAT, NAMA, KOORDINAT_X, KOORDINAT_Y, BESAR_TRAFO } = req.body;
+  const sql = 'INSERT INTO material_tek SET ?';
+  db.query(sql, { LOKASI, ALAMAT, NAMA, KOORDINAT_X, KOORDINAT_Y, BESAR_TRAFO }, (err, results) => {
+    if (err) return res.status(500).json(err);
+    res.status(201).json({ message: 'Trafo created', id: results.insertId });
+  });
+};
+
+// UPDATE
+exports.updateTrafo = (req, res) => {
   const { lokasi, nama } = req.params;
   const { ALAMAT, KOORDINAT_X, KOORDINAT_Y, BESAR_TRAFO } = req.body;
-
   const sql = 'UPDATE material_tek SET ALAMAT=?, KOORDINAT_X=?, KOORDINAT_Y=?, BESAR_TRAFO=? WHERE LOKASI=? AND NAMA=?';
-  db.query(sql, [ALAMAT, KOORDINAT_X, KOORDINAT_Y, BESAR_TRAFO, lokasi, nama], (err, result) => {
-    if (err) return res.status(500).json({ error: err.message });
+  db.query(sql, [ALAMAT, KOORDINAT_X, KOORDINAT_Y, BESAR_TRAFO, lokasi, nama], (err, results) => {
+    if (err) return res.status(500).json(err);
+    if (results.affectedRows === 0) return res.status(404).json({ message: 'Trafo not found' });
     res.json({ message: 'Trafo updated' });
   });
 };
 
-// DELETE materialTek by LOKASI + NAMA
-const deleteTrafo = (req, res) => {
+// DELETE
+exports.deleteTrafo = (req, res) => {
   const { lokasi, nama } = req.params;
-
   const sql = 'DELETE FROM material_tek WHERE LOKASI=? AND NAMA=?';
-  db.query(sql, [lokasi, nama], (err, result) => {
-    if (err) return res.status(500).json({ error: err.message });
+  db.query(sql, [lokasi, nama], (err, results) => {
+    if (err) return res.status(500).json(err);
+    if (results.affectedRows === 0) return res.status(404).json({ message: 'Trafo not found' });
     res.json({ message: 'Trafo deleted' });
   });
 };
 
-module.exports = { getTrafos, getTrafoByKey, createTrafo, updateTrafo, deleteTrafo };
+// GET nearby trafo tanpa batasan jarak, limit opsional
+exports.getNearbyTrafos = (req, res) => {
+  const { lat, lng, limit } = req.query;
+
+  if (!lat || !lng) return res.status(400).json({ message: 'Latitude and Longitude are required' });
+
+  const sql = `
+    SELECT *,
+      (6371 * acos(
+        cos(radians(?)) * cos(radians(KOORDINAT_X)) *
+        cos(radians(KOORDINAT_Y) - radians(?)) +
+        sin(radians(?)) * sin(radians(KOORDINAT_X))
+      )) AS distance
+    FROM material_tek
+    ORDER BY distance
+    ${limit ? 'LIMIT ?' : ''}
+  `;
+
+  const params = limit ? [lat, lng, lat, parseInt(limit)] : [lat, lng, lat];
+
+  db.query(sql, params, (err, results) => {
+    if (err) return res.status(500).json(err);
+    res.json(results);
+  });
+};
