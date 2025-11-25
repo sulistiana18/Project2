@@ -8,7 +8,7 @@ interface Trafo {
   NAMA: string;
   KOORDINAT_X: string;
   KOORDINAT_Y: string;
-  BESAR_TRAFO: string;
+  
 }
 
 const DataMaterialTek: React.FC = () => {
@@ -42,7 +42,7 @@ const DataMaterialTek: React.FC = () => {
             <th>NAMA</th>
             <th>KOORDINAT_X</th>
             <th>KOORDINAT_Y</th>
-            <th>BESAR_TRAFO</th>
+            
           </tr>
         </thead>
         <tbody>
@@ -53,7 +53,7 @@ const DataMaterialTek: React.FC = () => {
               <td>{trafo.NAMA}</td>
               <td>{trafo.KOORDINAT_X}</td>
               <td>{trafo.KOORDINAT_Y}</td>
-              <td>{trafo.BESAR_TRAFO}</td>
+              
             </tr>
           ))}
         </tbody>
