@@ -1,6 +1,6 @@
 {
-  "name": "places-searchbox",
-  "description": "Samples for Google Maps JavaScript",
+  "name": "places-searchbox-react",
+  "description": "Google Maps Places search box form in React (Vite + TypeScript)",
   "version": "2.1.4",
   "keywords": [
     "google",
@@ -27,9 +27,15 @@
   },
   "devDependencies": {
     "@types/google.maps": "^3.53.5",
+    "@types/react": "^18.3.4",
+    "@types/react-dom": "^18.3.0",
+    "@vitejs/plugin-react-swc": "^3.7.0",
     "typescript": "^5.5.3",
     "vite": "^5.4.6"
   },
   "private": true,
-  "dependencies": {}
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  }
 }
