@@ -6,7 +6,7 @@ dotenv.config();
 const connection = mysql.createConnection({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
-  password: '', // kosongkan jika tidak pakai password
+  password: process.env.DB_PASSWORD || '', // ambil dari .env
   database: process.env.DB_NAME
 });
 

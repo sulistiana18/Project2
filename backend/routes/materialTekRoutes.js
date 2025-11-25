@@ -2,25 +2,25 @@ const express = require('express');
 const router = express.Router();
 const {
   getTrafos,
-  getTrafoById,
+  getTrafoByKey,
   createTrafo,
   updateTrafo,
   deleteTrafo
 } = require('../controllers/materialTekController');
 
-// GET all trafos
+// GET all
 router.get('/', getTrafos);
 
-// GET single trafo by id
-router.get('/:id', getTrafoById);
+// GET by LOKASI + NAMA
+router.get('/:lokasi/:nama', getTrafoByKey);
 
-// POST create new trafo
+// POST create
 router.post('/', createTrafo);
 
-// PUT update trafo
-router.put('/:id', updateTrafo);
+// PUT update
+router.put('/:lokasi/:nama', updateTrafo);
 
-// DELETE trafo
-router.delete('/:id', deleteTrafo);
+// DELETE
+router.delete('/:lokasi/:nama', deleteTrafo);
 
 module.exports = router;
