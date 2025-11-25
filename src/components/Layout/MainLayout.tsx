@@ -10,7 +10,7 @@ export const MainLayout = () => {
     { path: "/", label: "Dashboard" },
     { path: "/order", label: "Order Pemesanan" },
     { path: "/administrasi", label: "Administrasi" },
-    { path: "/DataMaterial", label: "Data Material" },
+    { path: "/DataMaterial", label: "DataMaterialTek" },
     { path: "/setting", label: "Setting" },
   ];
 
