@@ -3,14 +3,13 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 
 interface Trafo {
-  LOKASI: string;
-  ALAMAT: string;
+  
   NAMA_MATERIAL: string;
   KOORDINAT_X: string;
   KOORDINAT_Y: string;
 }
 
-const OrderFormPage: React.FC = () => {
+const CekOrderFormPage: React.FC = () => {
   const [lat, setLat] = useState<number | null>(null);
   const [lng, setLng] = useState<number | null>(null);
   const [nearbyTrafos, setNearbyTrafos] = useState<Trafo[]>([]);
@@ -20,7 +19,7 @@ const OrderFormPage: React.FC = () => {
     setLoadingTrafos(true);
     try {
       const res = await axios.get<Trafo[]>(
-        `http://localhost:5000/api/materialTek/nearby?lat=${latitude}&lng=${longitude}&limit=100`
+        `http://localhost:5000/api/materialTek/nearby?lat=${latitude}&lng=${longitude}&limit=1000`
       );
       setNearbyTrafos(res.data);
     } catch (err) {
@@ -39,57 +38,9 @@ const OrderFormPage: React.FC = () => {
 
   return (
     <div style={{ padding: 20 }}>
-      <h2 style={{ textAlign: "center", marginBottom: 20 }}>Form Pemesanan</h2>
+      <h2 style={{ textAlign: "center", marginBottom: 20 }}>Cek Gardu Terdekat</h2>
 
       <div className="form-container">
-        <div className="form-group">
-          <label htmlFor="nama">Nama Permohonan Pelanggan</label>
-          <input
-            type="text"
-            id="nama"
-            placeholder="Masukkan nama pelanggan..."
-            autoComplete="off"
-          />
-        </div>
-
-        <div className="form-group">
-          <label htmlFor="agenda">No Agenda</label>
-          <input
-            type="text"
-            id="agenda"
-            placeholder="Masukkan Nomor Induk Kependudukan..."
-            autoComplete="off"
-          />
-        </div>
-
-        <div className="form-group">
-          <label htmlFor="alamat">Alamat</label>
-          <textarea
-            id="alamat"
-            placeholder="Masukkan alamat lengkap..."
-            autoComplete="off"
-          />
-        </div>
-
-        <div className="form-group">
-          <label htmlFor="Daya">Daya</label>
-          <input
-            type="text"
-            id="Daya"
-            placeholder="Masukkan besarnya daya"
-            autoComplete="off"
-          />
-        </div>
-
-        <div className="form-group">
-          <label htmlFor="Fasa">Fasa</label>
-          <input
-            type="text"
-            id="Fasa"
-            placeholder="Masukkan Fasa"
-            autoComplete="off"
-          />
-        </div>
 
         {/* Input Latitude & Longitude */}
         <div className="form-group">
@@ -125,8 +76,8 @@ const OrderFormPage: React.FC = () => {
           <table style={{ width: "100%", borderCollapse: "collapse" }}>
             <thead>
               <tr style={{ backgroundColor: "#f2f2f2" }}>
-                <th style={thStyle}>LOKASI</th>
-                <th style={thStyle}>ALAMAT</th>
+                
+                
                 <th style={thStyle}>NAMA_MATERIAL</th>
                 <th style={thStyle}>KOORDINAT_X</th>
                 <th style={thStyle}>KOORDINAT_Y</th>
@@ -140,8 +91,7 @@ const OrderFormPage: React.FC = () => {
                     backgroundColor: idx % 2 === 0 ? "#fff" : "#f9f9f9",
                   }}
                 >
-                  <td style={tdStyle}>{t.LOKASI}</td>
-                  <td style={tdStyle}>{t.ALAMAT}</td>
+                  
                   <td style={tdStyle}>{t.NAMA_MATERIAL}</td>
                   <td style={tdStyle}>{t.KOORDINAT_X}</td>
                   <td style={tdStyle}>{t.KOORDINAT_Y}</td>
@@ -170,4 +120,4 @@ const tdStyle: React.CSSProperties = {
   padding: "8px",
 };
 
-export default OrderFormPage;
+export default CekOrderFormPage;

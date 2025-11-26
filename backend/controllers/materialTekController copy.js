@@ -61,10 +61,11 @@ exports.getNearbyTrafos = (req, res) => {
 
   const sql = `
     SELECT *,
-      (
-        POW(SIN(RADIANS(KOORDINAT_X - ?)/2), 2)
-        + COS(RADIANS(?)) * COS(RADIANS(KOORDINAT_X)) * POW(SIN(RADIANS(KOORDINAT_Y - ?)/2), 2)
-      ) AS distance
+      (6371 * 2 * ASIN(SQRT(
+          POWER(SIN(RADIANS(KOORDINAT_X - ?)/2),2) +
+          COS(RADIANS(?)) * COS(RADIANS(KOORDINAT_X)) *
+          POWER(SIN(RADIANS(KOORDINAT_Y - ?)/2),2)
+      ))) AS distance
     FROM material_tek
     ORDER BY distance
     ${limit ? 'LIMIT ?' : ''}
