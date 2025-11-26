@@ -88,25 +88,28 @@ const OrderFormPage: React.FC = () => {
           <label htmlFor="Fasa">Fasa</label>
           <input type="text" id="Fasa" placeholder="Masukkan Fasa" autoComplete="off" />
         </div>
-      </div>
+      
 
       {/* MAP & INPUT */}
       <input id="pac-input" className="controls" type="text" placeholder="Search lokasi..." />
       <div id="map" style={{ height: 400, marginBottom: 20 }} />
 
+
+      {/*
       <div id="latlngResult">
         <p><strong>Latitude:</strong> <span id="latDisplay">-</span></p>
         <p><strong>Longitude:</strong> <span id="lngDisplay">-</span></p>
       </div>
+      */}
 
-      <input type="hidden" id="lat" />
-      <input type="hidden" id="lng" />
+      {/* <input type="hidden" id="lat" /> */} 
+      {/* <input type="hidden" id="lng" /> */}
 
       {/* ===================================================== */}
       {/*                  TABEL SELALU MUNCUL                  */}
       {/* ===================================================== */}
       <div style={{ marginTop: 20 }}>
-        <h3>Trafo Terdekat</h3>
+        <h3>Cek Bagian Teknis</h3>
 
         <table style={{ width: "100%", borderCollapse: "collapse" }}>
           <thead>
@@ -160,9 +163,11 @@ const OrderFormPage: React.FC = () => {
           </tbody>
         </table>
       </div>
+      </div>
 
       <button className="btn-submit" style={{ marginTop: 20 }}>Simpan Data</button>
     </div>
+    
   );
 };
 
