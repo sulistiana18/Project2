@@ -19,11 +19,11 @@ const OrderFormPage: React.FC = () => {
   const [lng, setLng] = useState<number | null>(null);
   const [nearbyTrafos, setNearbyTrafos] = useState<Trafo[]>([]);
   const [loadingTrafos, setLoadingTrafos] = useState<boolean>(false);
-  const [hasFetched, setHasFetched] = useState<boolean>(false); // <--- TAMBAHAN
+  const [hasFetched, setHasFetched] = useState<boolean>(false);
 
   const fetchNearbyTrafos = async (latitude: number, longitude: number) => {
     setLoadingTrafos(true);
-    setHasFetched(true); // <--- AKTIFKAN FETCH PERNAH DILAKUKAN
+    setHasFetched(true);
     try {
       const res = await axios.get<Trafo[]>(
         `http://localhost:5000/api/materialTek/nearby?lat=${latitude}&lng=${longitude}&limit=10`
@@ -100,16 +100,13 @@ const OrderFormPage: React.FC = () => {
         <input id="pac-input" className="controls" type="text" placeholder="Search lokasi..." />
         <div id="map" />
 
-
-      {/*
-      <div id="latlngResult">
+        <div id="latlngResult">
         <p><strong>Latitude:</strong> <span id="latDisplay">-</span></p>
         <p><strong>Longitude:</strong> <span id="lngDisplay">-</span></p>
       </div>
-      */}
 
-      {/* <input type="hidden" id="lat" /> */} 
-      {/* <input type="hidden" id="lng" /> */}
+      <input type="hidden" id="lat" />
+      <input type="hidden" id="lng" />
 
         {/* ===================================================== */}
         {/*                  TABEL SELALU MUNCUL                  */}
@@ -174,12 +171,7 @@ const OrderFormPage: React.FC = () => {
         </div>
       </div>
     </div>
-    
   );
 };
-
-// Styles
-const thStyle: React.CSSProperties = { border: "1px solid #ddd", padding: "8px", textAlign: "left" };
-const tdStyle: React.CSSProperties = { border: "1px solid #ddd", padding: "8px" };
 
 export default OrderFormPage;
