@@ -24,7 +24,7 @@ const OrderFormPage: React.FC = () => {
     setLoadingTrafos(true);
     try {
       const res = await axios.get<Trafo[]>(
-        `http://localhost:5000/api/materialTek/nearby?lat=${latitude}&lng=${longitude}&limit=4`
+        `http://localhost:5000/api/materialTek/nearby?lat=${latitude}&lng=${longitude}&limit=10`
       );
       setNearbyTrafos(res.data);
     } catch (err) {
