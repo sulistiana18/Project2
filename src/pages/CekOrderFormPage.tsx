@@ -37,87 +37,77 @@ const CekOrderFormPage: React.FC = () => {
   }, [lat, lng]);
 
   return (
-    <div style={{ padding: 20 }}>
-      <h2 style={{ textAlign: "center", marginBottom: 20 }}>Cek Gardu Terdekat</h2>
+    <div className="page">
+      <div className="page-card">
+        <h2 className="page-title" style={{ textAlign: "left" }}>
+          Cek Gardu Terdekat
+        </h2>
+        <p className="page-subtitle">
+          Masukkan koordinat latitude dan longitude untuk melihat daftar trafo terdekat.
+        </p>
 
-      <div className="form-container">
+        <div className="form-container">
 
-        {/* Input Latitude & Longitude */}
-        <div className="form-group">
-          <label htmlFor="latInput">Latitude</label>
-          <input
-            type="number"
-            id="latInput"
-            placeholder="Masukkan Latitude..."
-            value={lat ?? ""}
-            onChange={(e) => setLat(parseFloat(e.target.value))}
-          />
+          {/* Input Latitude & Longitude */}
+          <div className="form-group">
+            <label htmlFor="latInput">Latitude</label>
+            <input
+              type="number"
+              id="latInput"
+              placeholder="Masukkan Latitude..."
+              value={lat ?? ""}
+              onChange={(e) => setLat(parseFloat(e.target.value))}
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="lngInput">Longitude</label>
+            <input
+              type="number"
+              id="lngInput"
+              placeholder="Masukkan Longitude..."
+              value={lng ?? ""}
+              onChange={(e) => setLng(parseFloat(e.target.value))}
+            />
+          </div>
         </div>
 
-        <div className="form-group">
-          <label htmlFor="lngInput">Longitude</label>
-          <input
-            type="number"
-            id="lngInput"
-            placeholder="Masukkan Longitude..."
-            value={lng ?? ""}
-            onChange={(e) => setLng(parseFloat(e.target.value))}
-          />
-        </div>
-      </div>
-
-      <div style={{ marginTop: 20 }}>
-        <h3>Trafo Terdekat</h3>
-        {loadingTrafos ? (
-          <p>Loading...</p>
-        ) : nearbyTrafos.length === 0 ? (
-          <p>Tidak ada trafo terdekat</p>
-        ) : (
-          <table style={{ width: "100%", borderCollapse: "collapse" }}>
-            <thead>
-              <tr style={{ backgroundColor: "#f2f2f2" }}>
-                
-                
-                <th style={thStyle}>NAMA_MATERIAL</th>
-                <th style={thStyle}>KOORDINAT_X</th>
-                <th style={thStyle}>KOORDINAT_Y</th>
-              </tr>
-            </thead>
-            <tbody>
-              {nearbyTrafos.map((t, idx) => (
-                <tr
-                  key={idx}
-                  style={{
-                    backgroundColor: idx % 2 === 0 ? "#fff" : "#f9f9f9",
-                  }}
-                >
-                  
-                  <td style={tdStyle}>{t.NAMA_MATERIAL}</td>
-                  <td style={tdStyle}>{t.KOORDINAT_X}</td>
-                  <td style={tdStyle}>{t.KOORDINAT_Y}</td>
+        <div style={{ marginTop: 24 }}>
+          <div className="table-caption">Trafo Terdekat</div>
+          {loadingTrafos ? (
+            <p>Loading...</p>
+          ) : nearbyTrafos.length === 0 ? (
+            <p style={{ color: "#6b7280" }}>Tidak ada trafo terdekat</p>
+          ) : (
+            <table className="table">
+              <thead>
+                <tr>
+                  <th>NAMA_MATERIAL</th>
+                  <th>KOORDINAT_X</th>
+                  <th>KOORDINAT_Y</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        )}
-      </div>
+              </thead>
+              <tbody>
+                {nearbyTrafos.map((t, idx) => (
+                  <tr key={idx}>
+                    <td>{t.NAMA_MATERIAL}</td>
+                    <td>{t.KOORDINAT_X}</td>
+                    <td>{t.KOORDINAT_Y}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
+        </div>
 
-      <button className="btn-submit" style={{ marginTop: 20 }}>
-        Simpan Data
-      </button>
+        <div style={{ marginTop: 24 }}>
+          <button className="btn-submit">
+            Simpan Data
+          </button>
+        </div>
+      </div>
     </div>
   );
-};
-
-// Styles
-const thStyle: React.CSSProperties = {
-  border: "1px solid #ddd",
-  padding: "8px",
-  textAlign: "left",
-};
-const tdStyle: React.CSSProperties = {
-  border: "1px solid #ddd",
-  padding: "8px",
 };
 
 export default CekOrderFormPage;
