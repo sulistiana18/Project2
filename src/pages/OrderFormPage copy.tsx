@@ -19,11 +19,9 @@ const OrderFormPage: React.FC = () => {
   const [lng, setLng] = useState<number | null>(null);
   const [nearbyTrafos, setNearbyTrafos] = useState<Trafo[]>([]);
   const [loadingTrafos, setLoadingTrafos] = useState<boolean>(false);
-  const [hasFetched, setHasFetched] = useState<boolean>(false); // <--- TAMBAHAN
 
   const fetchNearbyTrafos = async (latitude: number, longitude: number) => {
     setLoadingTrafos(true);
-    setHasFetched(true); // <--- AKTIFKAN FETCH PERNAH DILAKUKAN
     try {
       const res = await axios.get<Trafo[]>(
         `http://localhost:5000/api/materialTek/nearby?lat=${latitude}&lng=${longitude}&limit=10`
@@ -90,7 +88,6 @@ const OrderFormPage: React.FC = () => {
         </div>
       </div>
 
-      {/* MAP & INPUT */}
       <input id="pac-input" className="controls" type="text" placeholder="Search lokasi..." />
       <div id="map" style={{ height: 400, marginBottom: 20 }} />
 
@@ -102,53 +99,25 @@ const OrderFormPage: React.FC = () => {
       <input type="hidden" id="lat" />
       <input type="hidden" id="lng" />
 
-      {/* ===================================================== */}
-      {/*                  TABEL SELALU MUNCUL                  */}
-      {/* ===================================================== */}
       <div style={{ marginTop: 20 }}>
         <h3>Trafo Terdekat</h3>
-
-        <table style={{ width: "100%", borderCollapse: "collapse" }}>
-          <thead>
-            <tr style={{ backgroundColor: "#f2f2f2" }}>
-              <th style={thStyle}>LOKASI</th>
-              <th style={thStyle}>ALAMAT</th>
-              <th style={thStyle}>NAMA_MATERIAL</th>
-              <th style={thStyle}>KOORDINAT_X</th>
-              <th style={thStyle}>KOORDINAT_Y</th>
-            </tr>
-          </thead>
-          <tbody>
-            {/* BELUM PILIH LOKASI */}
-            {!hasFetched && (
-              <tr>
-                <td colSpan={5} style={{ textAlign: "center", padding: 10, color: "gray" }}>
-                  Silakan pilih lokasi pada peta untuk melihat trafo terdekat.
-                </td>
+        {loadingTrafos ? (
+          <p>Loading...</p>
+        ) : nearbyTrafos.length === 0 ? (
+          <p>Tidak ada trafo terdekat</p>
+        ) : (
+          <table style={{ width: "100%", borderCollapse: "collapse" }}>
+            <thead>
+              <tr style={{ backgroundColor: "#f2f2f2" }}>
+                <th style={thStyle}>LOKASI</th>
+                <th style={thStyle}>ALAMAT</th>
+                <th style={thStyle}>NAMA_MATERIAL</th>
+                <th style={thStyle}>KOORDINAT_X</th>
+                <th style={thStyle}>KOORDINAT_Y</th>
               </tr>
-            )}
-
-            {/* LOADING */}
-            {loadingTrafos && hasFetched && (
-              <tr>
-                <td colSpan={5} style={{ textAlign: "center", padding: 10 }}>
-                  Loading...
-                </td>
-              </tr>
-            )}
-
-            {/* SUDAH FETCH TAPI DATA KOSONG */}
-            {hasFetched && !loadingTrafos && nearbyTrafos.length === 0 && (
-              <tr>
-                <td colSpan={5} style={{ textAlign: "center", padding: 10, color: "red" }}>
-                  Tidak ada trafo di sekitar lokasi ini.
-                </td>
-              </tr>
-            )}
-
-            {/* DATA ADA */}
-            {nearbyTrafos.length > 0 &&
-              nearbyTrafos.map((t, idx) => (
+            </thead>
+            <tbody>
+              {nearbyTrafos.map((t, idx) => (
                 <tr key={idx} style={{ backgroundColor: idx % 2 === 0 ? "#fff" : "#f9f9f9" }}>
                   <td style={tdStyle}>{t.LOKASI}</td>
                   <td style={tdStyle}>{t.ALAMAT}</td>
@@ -157,8 +126,9 @@ const OrderFormPage: React.FC = () => {
                   <td style={tdStyle}>{t.KOORDINAT_Y}</td>
                 </tr>
               ))}
-          </tbody>
-        </table>
+            </tbody>
+          </table>
+        )}
       </div>
 
       <button className="btn-submit" style={{ marginTop: 20 }}>Simpan Data</button>
