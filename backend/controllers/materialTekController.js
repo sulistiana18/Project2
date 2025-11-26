@@ -1,6 +1,8 @@
 const db = require('../config/db');
 
-// GET all
+// =====================
+// GET all trafos
+// =====================
 exports.getTrafos = (req, res) => {
   const sql = 'SELECT * FROM material_tek';
   db.query(sql, (err, results) => {
@@ -9,7 +11,9 @@ exports.getTrafos = (req, res) => {
   });
 };
 
-// GET by LOKASI + NAMA
+// =====================
+// GET trafo by LOKASI + NAMA
+// =====================
 exports.getTrafoByKey = (req, res) => {
   const { lokasi, nama } = req.params;
   const sql = 'SELECT * FROM material_tek WHERE LOKASI = ? AND NAMA = ?';
@@ -20,7 +24,9 @@ exports.getTrafoByKey = (req, res) => {
   });
 };
 
-// CREATE
+// =====================
+// CREATE new trafo
+// =====================
 exports.createTrafo = (req, res) => {
   const { LOKASI, ALAMAT, NAMA, KOORDINAT_X, KOORDINAT_Y, BESAR_TRAFO } = req.body;
   const sql = 'INSERT INTO material_tek SET ?';
@@ -30,7 +36,9 @@ exports.createTrafo = (req, res) => {
   });
 };
 
-// UPDATE
+// =====================
+// UPDATE trafo
+// =====================
 exports.updateTrafo = (req, res) => {
   const { lokasi, nama } = req.params;
   const { ALAMAT, KOORDINAT_X, KOORDINAT_Y, BESAR_TRAFO } = req.body;
@@ -42,7 +50,9 @@ exports.updateTrafo = (req, res) => {
   });
 };
 
-// DELETE
+// =====================
+// DELETE trafo
+// =====================
 exports.deleteTrafo = (req, res) => {
   const { lokasi, nama } = req.params;
   const sql = 'DELETE FROM material_tek WHERE LOKASI=? AND NAMA=?';
@@ -53,24 +63,31 @@ exports.deleteTrafo = (req, res) => {
   });
 };
 
-// GET nearby trafo tanpa batasan jarak, limit opsional
+// =====================
+// GET nearby trafos
+// Menggunakan Haversine formula simplifikasi sama seperti Excel
+// =====================
 exports.getNearbyTrafos = (req, res) => {
   const { lat, lng, limit } = req.query;
 
-  if (!lat || !lng) return res.status(400).json({ message: 'Latitude and Longitude are required' });
+  if (!lat || !lng) {
+    return res.status(400).json({ message: 'Latitude and Longitude are required' });
+  }
 
   const sql = `
     SELECT *,
-      (
-        POW(SIN(RADIANS(KOORDINAT_X - ?)/2), 2)
-        + COS(RADIANS(?)) * COS(RADIANS(KOORDINAT_X)) * POW(SIN(RADIANS(KOORDINAT_Y - ?)/2), 2)
-      ) AS distance
+      (6371 * 2 * ASIN(SQRT(
+          POWER(SIN(RADIANS(KOORDINAT_X - ?)/2),2) +
+          COS(RADIANS(?)) * COS(RADIANS(KOORDINAT_X)) *
+          POWER(SIN(RADIANS(KOORDINAT_Y - ?)/2),2)
+      ))) AS distance
     FROM material_tek
     ORDER BY distance
     ${limit ? 'LIMIT ?' : ''}
   `;
 
-  const params = limit ? [lat, lng, lat, parseInt(limit)] : [lat, lng, lat];
+  // Perhatikan: urutan param harus sesuai ? di SQL
+  const params = limit ? [lat, lat, lng, parseInt(limit)] : [lat, lat, lng];
 
   db.query(sql, params, (err, results) => {
     if (err) return res.status(500).json(err);
