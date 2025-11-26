@@ -19,9 +19,11 @@ const OrderFormPage: React.FC = () => {
   const [lng, setLng] = useState<number | null>(null);
   const [nearbyTrafos, setNearbyTrafos] = useState<Trafo[]>([]);
   const [loadingTrafos, setLoadingTrafos] = useState<boolean>(false);
+  const [hasFetched, setHasFetched] = useState<boolean>(false);
 
   const fetchNearbyTrafos = async (latitude: number, longitude: number) => {
     setLoadingTrafos(true);
+    setHasFetched(true);
     try {
       const res = await axios.get<Trafo[]>(
         `http://localhost:5000/api/materialTek/nearby?lat=${latitude}&lng=${longitude}&limit=10`
@@ -58,40 +60,47 @@ const OrderFormPage: React.FC = () => {
   }, []);
 
   return (
-    <div style={{ padding: 20 }}>
-      <h2 style={{ textAlign: "center", marginBottom: 20 }}>Form Pemesanan</h2>
+    <div className="page">
+      <div className="page-card">
+        <h2 className="page-title" style={{ textAlign: "left" }}>
+          Form Pemesanan
+        </h2>
+        <p className="page-subtitle">
+          Lengkapi data pelanggan dan tentukan lokasi permohonan untuk melihat informasi teknis terkait.
+        </p>
 
-      <div className="form-container">
-        <div className="form-group">
-          <label htmlFor="nama">Nama Permohonan Pelanggan</label>
-          <input type="text" id="nama" placeholder="Masukkan nama pelanggan..." autoComplete="off" />
+        <div className="form-container">
+          <div className="form-group">
+            <label htmlFor="nama">Nama Permohonan Pelanggan</label>
+            <input type="text" id="nama" placeholder="Masukkan nama pelanggan..." autoComplete="off" />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="agenda">No Agenda</label>
+            <input type="text" id="agenda" placeholder="Masukkan Nomor Induk Kependudukan..." autoComplete="off" />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="alamat">Alamat</label>
+            <textarea id="alamat" placeholder="Masukkan alamat lengkap..." autoComplete="off" />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="Daya">Daya</label>
+            <input type="text" id="Daya" placeholder="Masukkan besarnya daya" autoComplete="off" />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="Fasa">Fasa</label>
+            <input type="text" id="Fasa" placeholder="Masukkan Fasa" autoComplete="off" />
+          </div>
         </div>
 
-        <div className="form-group">
-          <label htmlFor="agenda">No Agenda</label>
-          <input type="text" id="agenda" placeholder="Masukkan Nomor Induk Kependudukan..." autoComplete="off" />
-        </div>
+        {/* MAP & INPUT */}
+        <input id="pac-input" className="controls" type="text" placeholder="Search lokasi..." />
+        <div id="map" />
 
-        <div className="form-group">
-          <label htmlFor="alamat">Alamat</label>
-          <textarea id="alamat" placeholder="Masukkan alamat lengkap..." autoComplete="off" />
-        </div>
-
-        <div className="form-group">
-          <label htmlFor="Daya">Daya</label>
-          <input type="text" id="Daya" placeholder="Masukkan besarnya daya" autoComplete="off" />
-        </div>
-
-        <div className="form-group">
-          <label htmlFor="Fasa">Fasa</label>
-          <input type="text" id="Fasa" placeholder="Masukkan Fasa" autoComplete="off" />
-        </div>
-      </div>
-
-      <input id="pac-input" className="controls" type="text" placeholder="Search lokasi..." />
-      <div id="map" style={{ height: 400, marginBottom: 20 }} />
-
-      <div id="latlngResult">
+        <div id="latlngResult">
         <p><strong>Latitude:</strong> <span id="latDisplay">-</span></p>
         <p><strong>Longitude:</strong> <span id="lngDisplay">-</span></p>
       </div>
@@ -99,45 +108,70 @@ const OrderFormPage: React.FC = () => {
       <input type="hidden" id="lat" />
       <input type="hidden" id="lng" />
 
-      <div style={{ marginTop: 20 }}>
-        <h3>Trafo Terdekat</h3>
-        {loadingTrafos ? (
-          <p>Loading...</p>
-        ) : nearbyTrafos.length === 0 ? (
-          <p>Tidak ada trafo terdekat</p>
-        ) : (
-          <table style={{ width: "100%", borderCollapse: "collapse" }}>
+        {/* ===================================================== */}
+        {/*                  TABEL SELALU MUNCUL                  */}
+        {/* ===================================================== */}
+        <div style={{ marginTop: 24 }}>
+          <div className="table-caption">Cek Bagian Teknis</div>
+          <table className="table">
             <thead>
-              <tr style={{ backgroundColor: "#f2f2f2" }}>
-                <th style={thStyle}>LOKASI</th>
-                <th style={thStyle}>ALAMAT</th>
-                <th style={thStyle}>NAMA_MATERIAL</th>
-                <th style={thStyle}>KOORDINAT_X</th>
-                <th style={thStyle}>KOORDINAT_Y</th>
+              <tr>
+                <th>LOKASI</th>
+                <th>ALAMAT</th>
+                <th>NAMA_MATERIAL</th>
+                <th>KOORDINAT_X</th>
+                <th>KOORDINAT_Y</th>
               </tr>
             </thead>
             <tbody>
-              {nearbyTrafos.map((t, idx) => (
-                <tr key={idx} style={{ backgroundColor: idx % 2 === 0 ? "#fff" : "#f9f9f9" }}>
-                  <td style={tdStyle}>{t.LOKASI}</td>
-                  <td style={tdStyle}>{t.ALAMAT}</td>
-                  <td style={tdStyle}>{t.NAMA_MATERIAL}</td>
-                  <td style={tdStyle}>{t.KOORDINAT_X}</td>
-                  <td style={tdStyle}>{t.KOORDINAT_Y}</td>
+              {/* BELUM PILIH LOKASI */}
+              {!hasFetched && (
+                <tr>
+                  <td colSpan={5} style={{ textAlign: "center", padding: 12, color: "#6b7280" }}>
+                    Silakan pilih lokasi pada peta untuk melihat trafo terdekat.
+                  </td>
                 </tr>
-              ))}
+              )}
+
+              {/* LOADING */}
+              {loadingTrafos && hasFetched && (
+                <tr>
+                  <td colSpan={5} style={{ textAlign: "center", padding: 12 }}>
+                    Loading...
+                  </td>
+                </tr>
+              )}
+
+              {/* SUDAH FETCH TAPI DATA KOSONG */}
+              {hasFetched && !loadingTrafos && nearbyTrafos.length === 0 && (
+                <tr>
+                  <td colSpan={5} style={{ textAlign: "center", padding: 12, color: "red" }}>
+                    Tidak ada trafo di sekitar lokasi ini.
+                  </td>
+                </tr>
+              )}
+
+              {/* DATA ADA */}
+              {nearbyTrafos.length > 0 &&
+                nearbyTrafos.map((t, idx) => (
+                  <tr key={idx}>
+                    <td>{t.LOKASI}</td>
+                    <td>{t.ALAMAT}</td>
+                    <td>{t.NAMA_MATERIAL}</td>
+                    <td>{t.KOORDINAT_X}</td>
+                    <td>{t.KOORDINAT_Y}</td>
+                  </tr>
+                ))}
             </tbody>
           </table>
-        )}
-      </div>
+        </div>
 
-      <button className="btn-submit" style={{ marginTop: 20 }}>Simpan Data</button>
+        <div style={{ marginTop: 24 }}>
+          <button className="btn-submit">Simpan Data</button>
+        </div>
+      </div>
     </div>
   );
 };
-
-// Styles
-const thStyle: React.CSSProperties = { border: "1px solid #ddd", padding: "8px", textAlign: "left" };
-const tdStyle: React.CSSProperties = { border: "1px solid #ddd", padding: "8px" };
 
 export default OrderFormPage;
