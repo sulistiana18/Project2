@@ -9,6 +9,7 @@ export const MainLayout = () => {
   const menuItems = [
     { path: "/", label: "Dashboard" },
     { path: "/order", label: "Order Pemesanan" },
+    { path: "/cekOrder", label: "Cek Koordinat" },
     { path: "/administrasi", label: "Administrasi" },
     { path: "/DataMaterial", label: "DataMaterialTek" },
     { path: "/setting", label: "Setting" },

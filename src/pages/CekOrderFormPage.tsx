@@ -1,8 +1,6 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { useGooglePlacesMap } from "../hooks/useGooglePlacesMap";
-import { GOOGLE_MAPS_API_KEY } from "../utils/constants";
 
 interface Trafo {
   LOKASI: string;
@@ -13,8 +11,6 @@ interface Trafo {
 }
 
 const OrderFormPage: React.FC = () => {
-  useGooglePlacesMap(GOOGLE_MAPS_API_KEY);
-
   const [lat, setLat] = useState<number | null>(null);
   const [lng, setLng] = useState<number | null>(null);
   const [nearbyTrafos, setNearbyTrafos] = useState<Trafo[]>([]);
@@ -24,7 +20,7 @@ const OrderFormPage: React.FC = () => {
     setLoadingTrafos(true);
     try {
       const res = await axios.get<Trafo[]>(
-        `http://localhost:5000/api/materialTek/nearby?lat=${latitude}&lng=${longitude}&limit=10`
+        `http://localhost:5000/api/materialTek/nearby?lat=${latitude}&lng=${longitude}&limit=100`
       );
       setNearbyTrafos(res.data);
     } catch (err) {
@@ -36,26 +32,10 @@ const OrderFormPage: React.FC = () => {
   };
 
   useEffect(() => {
-    const latInput = document.getElementById("lat") as HTMLInputElement;
-    const lngInput = document.getElementById("lng") as HTMLInputElement;
-
-    if (!latInput || !lngInput) return;
-
-    const observer = new MutationObserver(() => {
-      const latitude = parseFloat(latInput.value);
-      const longitude = parseFloat(lngInput.value);
-      if (!isNaN(latitude) && !isNaN(longitude)) {
-        setLat(latitude);
-        setLng(longitude);
-        fetchNearbyTrafos(latitude, longitude);
-      }
-    });
-
-    observer.observe(latInput, { attributes: true, attributeFilter: ["value"] });
-    observer.observe(lngInput, { attributes: true, attributeFilter: ["value"] });
-
-    return () => observer.disconnect();
-  }, []);
+    if (lat !== null && lng !== null) {
+      fetchNearbyTrafos(lat, lng);
+    }
+  }, [lat, lng]);
 
   return (
     <div style={{ padding: 20 }}>
@@ -64,40 +44,76 @@ const OrderFormPage: React.FC = () => {
       <div className="form-container">
         <div className="form-group">
           <label htmlFor="nama">Nama Permohonan Pelanggan</label>
-          <input type="text" id="nama" placeholder="Masukkan nama pelanggan..." autoComplete="off" />
+          <input
+            type="text"
+            id="nama"
+            placeholder="Masukkan nama pelanggan..."
+            autoComplete="off"
+          />
         </div>
 
         <div className="form-group">
           <label htmlFor="agenda">No Agenda</label>
-          <input type="text" id="agenda" placeholder="Masukkan Nomor Induk Kependudukan..." autoComplete="off" />
+          <input
+            type="text"
+            id="agenda"
+            placeholder="Masukkan Nomor Induk Kependudukan..."
+            autoComplete="off"
+          />
         </div>
 
         <div className="form-group">
           <label htmlFor="alamat">Alamat</label>
-          <textarea id="alamat" placeholder="Masukkan alamat lengkap..." autoComplete="off" />
+          <textarea
+            id="alamat"
+            placeholder="Masukkan alamat lengkap..."
+            autoComplete="off"
+          />
         </div>
 
         <div className="form-group">
           <label htmlFor="Daya">Daya</label>
-          <input type="text" id="Daya" placeholder="Masukkan besarnya daya" autoComplete="off" />
+          <input
+            type="text"
+            id="Daya"
+            placeholder="Masukkan besarnya daya"
+            autoComplete="off"
+          />
         </div>
 
         <div className="form-group">
           <label htmlFor="Fasa">Fasa</label>
-          <input type="text" id="Fasa" placeholder="Masukkan Fasa" autoComplete="off" />
+          <input
+            type="text"
+            id="Fasa"
+            placeholder="Masukkan Fasa"
+            autoComplete="off"
+          />
+        </div>
+
+        {/* Input Latitude & Longitude */}
+        <div className="form-group">
+          <label htmlFor="latInput">Latitude</label>
+          <input
+            type="number"
+            id="latInput"
+            placeholder="Masukkan Latitude..."
+            value={lat ?? ""}
+            onChange={(e) => setLat(parseFloat(e.target.value))}
+          />
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="lngInput">Longitude</label>
+          <input
+            type="number"
+            id="lngInput"
+            placeholder="Masukkan Longitude..."
+            value={lng ?? ""}
+            onChange={(e) => setLng(parseFloat(e.target.value))}
+          />
         </div>
       </div>
-
-      <input id="pac-input" className="controls" type="text" placeholder="Search lokasi..." />
-      <div id="map" style={{ height: 400, marginBottom: 20 }} />
-
-      <div id="latlngResult">
-        <p><strong>Latitude:</strong> <span id="latDisplay">-</span></p>
-        <p><strong>Longitude:</strong> <span id="lngDisplay">-</span></p>
-      </div>
-
-      <input type="hidden" id="lat" />
-      <input type="hidden" id="lng" />
 
       <div style={{ marginTop: 20 }}>
         <h3>Trafo Terdekat</h3>
@@ -118,7 +134,12 @@ const OrderFormPage: React.FC = () => {
             </thead>
             <tbody>
               {nearbyTrafos.map((t, idx) => (
-                <tr key={idx} style={{ backgroundColor: idx % 2 === 0 ? "#fff" : "#f9f9f9" }}>
+                <tr
+                  key={idx}
+                  style={{
+                    backgroundColor: idx % 2 === 0 ? "#fff" : "#f9f9f9",
+                  }}
+                >
                   <td style={tdStyle}>{t.LOKASI}</td>
                   <td style={tdStyle}>{t.ALAMAT}</td>
                   <td style={tdStyle}>{t.NAMA_MATERIAL}</td>
@@ -131,13 +152,22 @@ const OrderFormPage: React.FC = () => {
         )}
       </div>
 
-      <button className="btn-submit" style={{ marginTop: 20 }}>Simpan Data</button>
+      <button className="btn-submit" style={{ marginTop: 20 }}>
+        Simpan Data
+      </button>
     </div>
   );
 };
 
 // Styles
-const thStyle: React.CSSProperties = { border: "1px solid #ddd", padding: "8px", textAlign: "left" };
-const tdStyle: React.CSSProperties = { border: "1px solid #ddd", padding: "8px" };
+const thStyle: React.CSSProperties = {
+  border: "1px solid #ddd",
+  padding: "8px",
+  textAlign: "left",
+};
+const tdStyle: React.CSSProperties = {
+  border: "1px solid #ddd",
+  padding: "8px",
+};
 
 export default OrderFormPage;

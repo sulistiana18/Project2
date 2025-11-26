@@ -7,7 +7,7 @@ const {
   updateTrafo,
   deleteTrafo,
   getNearbyTrafos
-} = require('../controllers/materialTekController');
+} = require('../controllerS/materialTekController');
 
 // GET nearby harus di atas supaya tidak tertangkap :lokasi/:nama
 router.get('/nearby', getNearbyTrafos);
