@@ -86,7 +86,6 @@ exports.getNearbyTrafos = (req, res) => {
     ${limit ? 'LIMIT ?' : ''}
   `;
 
-  // Perhatikan: urutan param harus sesuai ? di SQL
   const params = limit ? [lat, lat, lng, parseInt(limit)] : [lat, lat, lng];
 
   db.query(sql, params, (err, results) => {

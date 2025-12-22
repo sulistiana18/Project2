@@ -12,7 +12,7 @@ interface Trafo {
   KOORDINAT_Y: string;
 }
 
-const OrderFormPage: React.FC = () => {
+const PasangBaru: React.FC = () => {
   useGooglePlacesMap(GOOGLE_MAPS_API_KEY);
 
   const [lat, setLat] = useState<number | null>(null);
@@ -140,4 +140,4 @@ const OrderFormPage: React.FC = () => {
 const thStyle: React.CSSProperties = { border: "1px solid #ddd", padding: "8px", textAlign: "left" };
 const tdStyle: React.CSSProperties = { border: "1px solid #ddd", padding: "8px" };
 
-export default OrderFormPage;
+export default PasangBaru;

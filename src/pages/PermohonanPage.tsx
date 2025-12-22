@@ -11,7 +11,7 @@ const cardStyle: React.CSSProperties = {
   transition: "transform 0.2s ease, box-shadow 0.2s ease",
 };
 
-const DashboardPage: React.FC = () => {
+const PermohonanPage: React.FC = () => {
   const navigate = useNavigate();
 
   return (
@@ -65,4 +65,4 @@ const DashboardPage: React.FC = () => {
   );
 };
 
-export default DashboardPage;
+export default PermohonanPage;

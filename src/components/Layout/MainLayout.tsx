@@ -6,33 +6,63 @@ export const MainLayout = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
+  // ===== MAP JUDUL HALAMAN BERDASARKAN ROUTE =====
+  const pageTitles: Record<string, string> = {
+    "/": "Home Page",
+    "/dashboard": "Dashboard",
+    "/Permohonan": "Permohonan Pelanggan",
+    "/cekOrder": "Cek Gardu Terdekat",
+    "/administrasi": "Administrasi",
+    "/DataMaterial": "Data Material Teknik",
+    "/setting": "Pengaturan",
+    "/pasang-baru": "Pasang Baru",
+    "/sambung-sementara": "Sambung Sementara",
+    "/ubah-daya": "Ubah Daya",
+    "/balik-nama": "Balik Nama",
+  };
+
+  const currentTitle =
+    pageTitles[location.pathname] || "Permohonan Pelanggan";
+
   const menuItems = [
-    { path: "/", label: "Dashboard" },
-    { path: "/order", label: "Order Pemesanan" },
+    { path: "/", label: "Home Page" },
+    { path: "/dashboard", label: "Dashboard" },
+    { path: "/Permohonan", label: "Permohonan" },
     { path: "/cekOrder", label: "Cek Gardu Terdekat" },
     { path: "/administrasi", label: "Administrasi" },
     { path: "/DataMaterial", label: "DataMaterialTek" },
     { path: "/setting", label: "Setting" },
+    { path: "/setting", label: "Stock Material" },
   ];
 
-  // Close dropdown if click outside
+  // ===== CLOSE DROPDOWN JIKA KLIK DI LUAR =====
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
         setDropdownOpen(false);
       }
     }
     document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    return () =>
+      document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   return (
-    <div style={{ display: "flex", minHeight: "100vh", fontFamily: "Arial, sans-serif" }}>
-      {/* Sidebar freeze */}
+    <div
+      style={{
+        display: "flex",
+        minHeight: "100vh",
+        fontFamily: "Arial, sans-serif",
+      }}
+    >
+      {/* ================= SIDEBAR ================= */}
       <aside
         style={{
           width: 240,
-          background: "#1f2937",
+          background: "#114152ff",
           color: "#fff",
           padding: "24px 16px",
           display: "flex",
@@ -44,9 +74,16 @@ export const MainLayout = () => {
           overflowY: "auto",
         }}
       >
-        <h2 style={{ margin: 0, fontSize: 24, fontWeight: "bold", textAlign: "center" }}>
-          LOGO PERUSAHAAN
-        </h2>
+        <img
+          src="/src/assets/logo/pln-large.png"
+          alt="Logo Perusahaan"
+          style={{
+            width: 160,
+            height: "auto",
+            display: "block",
+            margin: "0 auto",
+          }}
+        />
 
         <nav style={{ display: "flex", flexDirection: "column", gap: 12 }}>
           {menuItems.map((item) => (
@@ -57,9 +94,14 @@ export const MainLayout = () => {
                 padding: "10px 14px",
                 borderRadius: 6,
                 textDecoration: "none",
-                color: location.pathname === item.path ? "#1f2937" : "#fff",
-                backgroundColor: location.pathname === item.path ? "#fff" : "transparent",
-                fontWeight: location.pathname === item.path ? "bold" : "normal",
+                color:
+                  location.pathname === item.path ? "#1f2937" : "#fff",
+                backgroundColor:
+                  location.pathname === item.path
+                    ? "#fff"
+                    : "transparent",
+                fontWeight:
+                  location.pathname === item.path ? "bold" : "normal",
                 transition: "0.2s",
               }}
             >
@@ -69,8 +111,16 @@ export const MainLayout = () => {
         </nav>
       </aside>
 
-      {/* Main content */}
-      <div style={{ flex: 1, display: "flex", flexDirection: "column", background: "#f9fafb" }}>
+      {/* ================= MAIN ================= */}
+      <div
+        style={{
+          flex: 1,
+          display: "flex",
+          flexDirection: "column",
+          background: "#f9fafb",
+        }}
+      >
+        {/* ============ HEADER ============ */}
         <header
           style={{
             padding: "16px 32px",
@@ -85,10 +135,10 @@ export const MainLayout = () => {
           }}
         >
           <span style={{ fontSize: 22, fontWeight: "bold" }}>
-            INOVASI PERCEPATAN PASANG BARU
+            {currentTitle}
           </span>
 
-          {/* Corporate Profile */}
+          {/* ===== PROFILE ===== */}
           <div style={{ position: "relative" }} ref={dropdownRef}>
             <div
               onClick={() => setDropdownOpen(!dropdownOpen)}
@@ -114,12 +164,16 @@ export const MainLayout = () => {
                 }}
               />
               <div style={{ display: "flex", flexDirection: "column" }}>
-                <span style={{ fontWeight: "bold", fontSize: 14 }}>John Doe</span>
-                <span style={{ fontSize: 12, color: "#6b7280" }}>Manager Operasional</span>
+                <span style={{ fontWeight: "bold", fontSize: 14 }}>
+                  Hendra
+                </span>
+                <span style={{ fontSize: 12, color: "#6b7280" }}>
+                  Manager Unit
+                </span>
               </div>
             </div>
 
-            {/* Dropdown Menu */}
+            {/* ===== DROPDOWN ===== */}
             {dropdownOpen && (
               <div
                 style={{
@@ -161,7 +215,7 @@ export const MainLayout = () => {
                   Settings
                 </Link>
                 <button
-                  onClick={() => alert("Logout berhasil!")} // bisa diganti logic logout
+                  onClick={() => alert("Logout berhasil!")}
                   style={{
                     padding: "8px 12px",
                     border: "none",
@@ -178,10 +232,12 @@ export const MainLayout = () => {
           </div>
         </header>
 
+        {/* ============ CONTENT ============ */}
         <main style={{ flex: 1, padding: 32, overflowY: "auto" }}>
           <Outlet />
         </main>
 
+        {/* ============ FOOTER ============ */}
         <footer
           style={{
             padding: "12px 24px",

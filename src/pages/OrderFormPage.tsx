@@ -59,7 +59,7 @@ const OrderFormPage: React.FC = () => {
 
   return (
     <div style={{ padding: 20 }}>
-      <h2 style={{ textAlign: "center", marginBottom: 20 }}>Form Pemesanan</h2>
+      
 
       <div className="form-container">
         <div className="form-group">

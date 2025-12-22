@@ -19,7 +19,7 @@ const CekOrderFormPage: React.FC = () => {
     setLoadingTrafos(true);
     try {
       const res = await axios.get<Trafo[]>(
-        `http://localhost:5000/api/materialTek/nearby?lat=${latitude}&lng=${longitude}&limit=1000`
+        `http://localhost:5000/api/materialTek/nearby?lat=${latitude}&lng=${longitude}&limit=3`
       );
       setNearbyTrafos(res.data);
     } catch (err) {
@@ -38,7 +38,7 @@ const CekOrderFormPage: React.FC = () => {
 
   return (
     <div style={{ padding: 20 }}>
-      <h2 style={{ textAlign: "center", marginBottom: 20 }}>Cek Gardu Terdekat</h2>
+      {/* <h2 style={{ textAlign: "center", marginBottom: 20 }}>Cek Gardu Terdekat</h2> */}
 
       <div className="form-container">
 

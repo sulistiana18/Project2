@@ -55,7 +55,7 @@ const DataMaterialTek: React.FC = () => {
 
   return (
     <div style={{ maxWidth: '1000px', margin: '20px auto', fontFamily: 'Arial, sans-serif' }}>
-      <h2 style={{ textAlign: 'center', marginBottom: '20px' }}>Daftar Trafo</h2>
+      {/* <h2 style={{ textAlign: 'center', marginBottom: '20px' }}>Daftar Trafo</h2> */}
 
       {/* Filter Inputs */}
       <div style={{ marginBottom: '15px', display: 'flex', gap: '15px', alignItems: 'center' }}>
