@@ -59,42 +59,50 @@ const PasangBaru: React.FC = () => {
 
   return (
     <div style={{ padding: 20 }}>
-      
+      <input id="pac-input" className="controls" type="text" placeholder="Search lokasi..." />
+      <div id="map" style={{ height: 400, marginBottom: 20 }} />
 
       <div className="form-container">
         <div className="form-group">
-          <label htmlFor="nama">Nama Permohonan Pelanggan</label>
-          <input type="text" id="nama" placeholder="Masukkan nama pelanggan..." autoComplete="off" />
+          <label htmlFor="nama">Alamat Lengkap</label>
+          <input type="text" id="nama" placeholder="Masukkan alamat" autoComplete="off" />
         </div>
 
         <div className="form-group">
-          <label htmlFor="agenda">No Agenda</label>
-          <input type="text" id="agenda" placeholder="Masukkan Nomor Induk Kependudukan..." autoComplete="off" />
+          <label htmlFor="agenda">Detail Alamat</label>
+          <input type="text" id="agenda" placeholder="Masukkan patokan/detail alamat" autoComplete="off" />
         </div>
 
         <div className="form-group">
-          <label htmlFor="alamat">Alamat</label>
+          <label htmlFor="alamat">Provinsi</label>
           <textarea id="alamat" placeholder="Masukkan alamat lengkap..." autoComplete="off" />
         </div>
 
         <div className="form-group">
-          <label htmlFor="Daya">Daya</label>
+          <label htmlFor="Daya">Kabupaten/Kota</label>
           <input type="text" id="Daya" placeholder="Masukkan besarnya daya" autoComplete="off" />
         </div>
 
         <div className="form-group">
-          <label htmlFor="Fasa">Fasa</label>
+          <label htmlFor="Fasa">Kecamatan</label>
+          <input type="text" id="Fasa" placeholder="Masukkan Fasa" autoComplete="off" />
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="Fasa">Desa/Kelurahan</label>
+          <input type="text" id="Fasa" placeholder="Masukkan Fasa" autoComplete="off" />
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="Fasa">Unit Layanan PLN</label>
           <input type="text" id="Fasa" placeholder="Masukkan Fasa" autoComplete="off" />
         </div>
       </div>
 
-      <input id="pac-input" className="controls" type="text" placeholder="Search lokasi..." />
-      <div id="map" style={{ height: 400, marginBottom: 20 }} />
-
-      <div id="latlngResult">
+      {/* <div id="latlngResult">
         <p><strong>Latitude:</strong> <span id="latDisplay">-</span></p>
         <p><strong>Longitude:</strong> <span id="lngDisplay">-</span></p>
-      </div>
+      </div>  */}
 
       <input type="hidden" id="lat" />
       <input type="hidden" id="lng" />
