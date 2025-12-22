@@ -10,10 +10,12 @@ import PasangBaru from "./pages/PasangBaru";
 import NotFoundPage from "./pages/NotFoundPage";
 import Permohonan from "./pages/PermohonanPage";
 import PermohonanPage from "./pages/PermohonanPage";
+import LoginPage from "./pages/LoginPage";
 
 const App: React.FC = () => {
   return (
     <Routes>
+      <Route path="/login" element={<LoginPage />} />
       <Route element={<MainLayout />}>
         <Route index element={<HomePage />} />
         <Route path="dashboard" element={<DashboardPage />} />
