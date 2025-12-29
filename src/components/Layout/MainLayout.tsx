@@ -6,7 +6,6 @@ export const MainLayout = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  // ===== MAP JUDUL HALAMAN BERDASARKAN ROUTE =====
   const pageTitles: Record<string, string> = {
     "/": "Home Page",
     "/dashboard": "Dashboard",
@@ -25,17 +24,15 @@ export const MainLayout = () => {
     pageTitles[location.pathname] || "Permohonan Pelanggan";
 
   const menuItems = [
-    { path: "/", label: "Home Page" },
-    { path: "/dashboard", label: "Dashboard" },
     { path: "/Permohonan", label: "Permohonan" },
-    { path: "/cekOrder", label: "Cek Gardu Terdekat" },
-    { path: "/administrasi", label: "Administrasi" },
-    { path: "/DataMaterial", label: "DataMaterialTek" },
+    { path: "/DataPermohonan", label: "Data Permohonan" },
+    { path: "/Transaksi", label: "Transaksi" },
+    { path: "/DataMaterial", label: "Data Material Teknik" },
+    { path: "/DataMaterialTelTek", label: "Material Tel Tek" },
+    { path: "/UserManagement", label: "User Management" },
     { path: "/setting", label: "Setting" },
-    { path: "/setting", label: "Stock Material" },
   ];
 
-  // ===== CLOSE DROPDOWN JIKA KLIK DI LUAR =====
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (
@@ -51,178 +48,183 @@ export const MainLayout = () => {
   }, []);
 
   return (
-    <div
-      style={{
-        display: "flex",
-        minHeight: "100vh",
-        fontFamily: "Arial, sans-serif",
-      }}
-    >
+    <div style={{ display: "flex", minHeight: "100vh", fontFamily: "Inter, Arial" }}>
       {/* ================= SIDEBAR ================= */}
       <aside
         style={{
-          width: 240,
-          background: "#114152ff",
+          width: 260,
+          background: "linear-gradient(180deg, #0f4c5c, #0b2f3a)",
           color: "#fff",
-          padding: "24px 16px",
+          padding: "28px 18px",
           display: "flex",
           flexDirection: "column",
-          gap: 32,
+          gap: 36,
           position: "sticky",
           top: 0,
           height: "100vh",
-          overflowY: "auto",
         }}
       >
         <img
           src="/src/assets/logo/pln-large.png"
-          alt="Logo Perusahaan"
+          alt="Logo"
           style={{
-            width: 160,
-            height: "auto",
-            display: "block",
+            width: 150,
             margin: "0 auto",
+            filter: "drop-shadow(0 4px 6px rgba(0,0,0,.3))",
           }}
         />
 
-        <nav style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-          {menuItems.map((item) => (
-            <Link
-              key={item.path}
-              to={item.path}
-              style={{
-                padding: "10px 14px",
-                borderRadius: 6,
-                textDecoration: "none",
-                color:
-                  location.pathname === item.path ? "#1f2937" : "#fff",
-                backgroundColor:
-                  location.pathname === item.path
-                    ? "#fff"
-                    : "transparent",
-                fontWeight:
-                  location.pathname === item.path ? "bold" : "normal",
-                transition: "0.2s",
-              }}
-            >
-              {item.label}
-            </Link>
-          ))}
+        <nav style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+          {menuItems.map((item) => {
+            const active = location.pathname === item.path;
+            return (
+              <Link
+                key={item.path}
+                to={item.path}
+                style={{
+                  position: "relative",
+                  padding: "12px 16px 12px 20px",
+                  borderRadius: 10,
+                  textDecoration: "none",
+                  color: active ? "#0f172a" : "#e5f6fb",
+                  background: active ? "#ffffff" : "transparent",
+                  fontWeight: active ? 600 : 400,
+                  transition: "all .25s ease",
+                  boxShadow: active
+                    ? "0 6px 14px rgba(0,0,0,.15)"
+                    : "none",
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = "translateX(6px)";
+                  e.currentTarget.style.background =
+                    active ? "#ffffff" : "rgba(255,255,255,.08)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = "translateX(0)";
+                  e.currentTarget.style.background = active
+                    ? "#ffffff"
+                    : "transparent";
+                }}
+              >
+                {active && (
+                  <span
+                    style={{
+                      position: "absolute",
+                      left: 0,
+                      top: 8,
+                      bottom: 8,
+                      width: 4,
+                      borderRadius: 4,
+                      background: "#00c2ff",
+                    }}
+                  />
+                )}
+                {item.label}
+              </Link>
+            );
+          })}
         </nav>
       </aside>
 
       {/* ================= MAIN ================= */}
-      <div
-        style={{
-          flex: 1,
-          display: "flex",
-          flexDirection: "column",
-          background: "#f9fafb",
-        }}
-      >
-        {/* ============ HEADER ============ */}
+      <div style={{ flex: 1, display: "flex", flexDirection: "column", background: "#f4f7fb" }}>
+        {/* ================= HEADER ================= */}
         <header
           style={{
-            padding: "16px 32px",
-            borderBottom: "1px solid #ddd",
+            padding: "18px 36px",
             background: "#fff",
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
+            boxShadow: "0 2px 8px rgba(0,0,0,.08)",
             position: "sticky",
             top: 0,
             zIndex: 10,
           }}
         >
-          <span style={{ fontSize: 22, fontWeight: "bold" }}>
-            {currentTitle}
-          </span>
+          <div>
+            <h1 style={{ fontSize: 24, margin: 0 }}>{currentTitle}</h1>
+            <div
+              style={{
+                width: 60,
+                height: 4,
+                marginTop: 6,
+                borderRadius: 8,
+                background: "linear-gradient(90deg,#00c2ff,#0077ff)",
+              }}
+            />
+          </div>
 
-          {/* ===== PROFILE ===== */}
-          <div style={{ position: "relative" }} ref={dropdownRef}>
+          {/* PROFILE */}
+          <div ref={dropdownRef} style={{ position: "relative" }}>
             <div
               onClick={() => setDropdownOpen(!dropdownOpen)}
               style={{
                 display: "flex",
                 alignItems: "center",
                 gap: 12,
-                background: "#f3f4f6",
-                padding: "6px 12px",
-                borderRadius: 12,
+                background: "#f1f5f9",
+                padding: "8px 14px",
+                borderRadius: 14,
                 cursor: "pointer",
+                transition: ".2s",
               }}
             >
               <img
                 src="https://i.pravatar.cc/50?img=12"
                 alt="profile"
                 style={{
-                  width: 48,
-                  height: 48,
+                  width: 44,
+                  height: 44,
                   borderRadius: "50%",
-                  objectFit: "cover",
-                  border: "2px solid #1f2937",
+                  border: "2px solid #00c2ff",
                 }}
               />
-              <div style={{ display: "flex", flexDirection: "column" }}>
-                <span style={{ fontWeight: "bold", fontSize: 14 }}>
-                  Hendra
-                </span>
-                <span style={{ fontSize: 12, color: "#6b7280" }}>
+              <div>
+                <div style={{ fontWeight: 600, fontSize: 14 }}>Hendra</div>
+                <div style={{ fontSize: 12, color: "#64748b" }}>
                   Manager Unit
-                </span>
+                </div>
               </div>
             </div>
 
-            {/* ===== DROPDOWN ===== */}
             {dropdownOpen && (
               <div
                 style={{
                   position: "absolute",
-                  top: "calc(100% + 8px)",
                   right: 0,
+                  top: "calc(100% + 10px)",
                   background: "#fff",
-                  border: "1px solid #ddd",
-                  borderRadius: 6,
-                  boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
-                  minWidth: 150,
-                  zIndex: 20,
-                  display: "flex",
-                  flexDirection: "column",
+                  borderRadius: 12,
+                  boxShadow: "0 10px 25px rgba(0,0,0,.15)",
+                  overflow: "hidden",
+                  minWidth: 160,
                 }}
               >
-                <Link
-                  to="/profile"
-                  style={{
-                    padding: "8px 12px",
-                    textDecoration: "none",
-                    color: "#111",
-                    fontSize: 14,
-                    borderBottom: "1px solid #eee",
-                  }}
-                >
-                  Profile
-                </Link>
-                <Link
-                  to="/settings"
-                  style={{
-                    padding: "8px 12px",
-                    textDecoration: "none",
-                    color: "#111",
-                    fontSize: 14,
-                    borderBottom: "1px solid #eee",
-                  }}
-                >
-                  Settings
-                </Link>
+                {["Profile", "Settings"].map((item) => (
+                  <Link
+                    key={item}
+                    to={`/${item.toLowerCase()}`}
+                    style={{
+                      display: "block",
+                      padding: "10px 14px",
+                      textDecoration: "none",
+                      color: "#0f172a",
+                      fontSize: 14,
+                    }}
+                  >
+                    {item}
+                  </Link>
+                ))}
                 <button
                   onClick={() => alert("Logout berhasil!")}
                   style={{
-                    padding: "8px 12px",
+                    width: "100%",
+                    padding: "10px 14px",
                     border: "none",
-                    background: "transparent",
+                    background: "#f8fafc",
                     cursor: "pointer",
                     textAlign: "left",
-                    fontSize: 14,
                   }}
                 >
                   Logout
@@ -232,22 +234,22 @@ export const MainLayout = () => {
           </div>
         </header>
 
-        {/* ============ CONTENT ============ */}
-        <main style={{ flex: 1, padding: 32, overflowY: "auto" }}>
+        {/* ================= CONTENT ================= */}
+        <main style={{ flex: 1, padding: 36 }}>
           <Outlet />
         </main>
 
-        {/* ============ FOOTER ============ */}
+        {/* ================= FOOTER ================= */}
         <footer
           style={{
-            padding: "12px 24px",
-            borderTop: "1px solid #ddd",
+            padding: 14,
             fontSize: 12,
             textAlign: "center",
             background: "#fff",
+            borderTop: "1px solid #e5e7eb",
           }}
         >
-          © {new Date().getFullYear()} PT X
+          © {new Date().getFullYear()} PT Perusahaan Listrik Nasional
         </footer>
       </div>
     </div>

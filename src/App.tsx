@@ -8,20 +8,27 @@ import CekOrderFormPage from "./pages/CekOrderFormPage";
 import DataMaterialTek from "./pages/DataMaterialTek";
 import PasangBaru from "./pages/PasangBaru";
 import NotFoundPage from "./pages/NotFoundPage";
-import Permohonan from "./pages/PermohonanPage";
 import PermohonanPage from "./pages/PermohonanPage";
+import LoginPage from "./pages/LoginPage";
+import TopBarLayout from "./components/Layout/TopBarLayout";
+import RegisterPage from "./pages/RegisterPage";
 
 const App: React.FC = () => {
   return (
     <Routes>
-      <Route element={<MainLayout />}>
+      <Route element={<TopBarLayout />}>
         <Route index element={<HomePage />} />
+        <Route path="login" element={<LoginPage />} />
+        <Route path="register" element={<RegisterPage />} />
+      </Route>
+
+      <Route element={<MainLayout />}>
         <Route path="dashboard" element={<DashboardPage />} />
-        <Route path="Permohonan" element={<PermohonanPage />} />
-        <Route path="cekOrder" element={<CekOrderFormPage />} />
-        <Route path="DataMaterial" element={<DataMaterialTek />} />
+        <Route path="permohonan" element={<PermohonanPage />} />
+        <Route path="cek-order" element={<CekOrderFormPage />} />
+        <Route path="data-material" element={<DataMaterialTek />} />
+        <Route path="pasang-baru" element={<PasangBaru />} />
         <Route path="*" element={<NotFoundPage />} />
-        <Route path="/pasang-baru" element={<PasangBaru />} />
       </Route>
     </Routes>
   );

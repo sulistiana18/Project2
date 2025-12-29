@@ -99,10 +99,11 @@ const PasangBaru: React.FC = () => {
         </div>
       </div>
 
-      {/* <div id="latlngResult">
+      {/* 
+      <div id="latlngResult">
         <p><strong>Latitude:</strong> <span id="latDisplay">-</span></p>
         <p><strong>Longitude:</strong> <span id="lngDisplay">-</span></p>
-      </div>  */}
+      </div> 
 
       <input type="hidden" id="lat" />
       <input type="hidden" id="lng" />
@@ -137,9 +138,9 @@ const PasangBaru: React.FC = () => {
             </tbody>
           </table>
         )}
-      </div>
+      </div> */}
 
-      <button className="btn-submit" style={{ marginTop: 20 }}>Simpan Data</button>
+      <button className="btn-submit" style={{ marginTop: 20 }}>Submit</button>
     </div>
   );
 };

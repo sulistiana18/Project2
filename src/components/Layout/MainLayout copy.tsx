@@ -1,40 +1,259 @@
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useLocation } from "react-router-dom";
+import { useState, useRef, useEffect } from "react";
 
 export const MainLayout = () => {
+  const location = useLocation();
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  // ===== MAP JUDUL HALAMAN BERDASARKAN ROUTE =====
+  const pageTitles: Record<string, string> = {
+    "/": "Home Page",
+    "/dashboard": "Dashboard",
+    "/Permohonan": "Permohonan Pelanggan",
+    "/cekOrder": "Cek Gardu Terdekat",
+    "/administrasi": "Administrasi",
+    "/DataMaterial": "Data Material Teknik",
+    "/setting": "Pengaturan",
+    "/pasang-baru": "Pasang Baru",
+    "/sambung-sementara": "Sambung Sementara",
+    "/ubah-daya": "Ubah Daya",
+    "/balik-nama": "Balik Nama",
+  };
+
+  const currentTitle =
+    pageTitles[location.pathname] || "Permohonan Pelanggan";
+
+  const menuItems = [
+    // { path: "/", label: "Home Page" },
+    // { path: "/dashboard", label: "Dashboard" },
+
+    { path: "/Permohonan", label: "Permohonan" },
+    { path: "/DataPermohonan", label: "Data Permohonan" }, //cek administrasi, cetak 
+    { path: "/Transaksi", label: "Transaksi" }, // edit status 
+    { path: "/DataMaterial", label: "DataMaterialTek" }, //edit stock
+    
+    { path: "/DataMaterialTelTek", label: "Material Tel Tek" },
+    { path: "/UserManagement", label: "User Management" },
+    { path: "/setting", label: "Setting" },
+    
+  ];
+
+  // ===== CLOSE DROPDOWN JIKA KLIK DI LUAR =====
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setDropdownOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () =>
+      document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
   return (
-    <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
-      <header
+    <div
+      style={{
+        display: "flex",
+        minHeight: "100vh",
+        fontFamily: "Arial, sans-serif",
+      }}
+    >
+      {/* ================= SIDEBAR ================= */}
+      <aside
         style={{
-          padding: "12px 24px",
-          borderBottom: "1px solid #ddd",
+          width: 240,
+          background: "#114152ff",
+          color: "#fff",
+          padding: "24px 16px",
           display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
+          flexDirection: "column",
+          gap: 32,
+          position: "sticky",
+          top: 0,
+          height: "100vh",
+          overflowY: "auto",
         }}
       >
-        <h1 style={{ fontSize: 20, margin: 0 }}>INOVASI PERCEPATAN PASANG BARU</h1>
-        <nav style={{ display: "flex", gap: 16 }}>
-          <Link to="/">Home</Link>
-          <Link to="/order">Form Pemesanan</Link>
+        <img
+          src="/src/assets/logo/pln-large.png"
+          alt="Logo Perusahaan"
+          style={{
+            width: 160,
+            height: "auto",
+            display: "block",
+            margin: "0 auto",
+          }}
+        />
+
+        <nav style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+          {menuItems.map((item) => (
+            <Link
+              key={item.path}
+              to={item.path}
+              style={{
+                padding: "10px 14px",
+                borderRadius: 6,
+                textDecoration: "none",
+                color:
+                  location.pathname === item.path ? "#1f2937" : "#fff",
+                backgroundColor:
+                  location.pathname === item.path
+                    ? "#fff"
+                    : "transparent",
+                fontWeight:
+                  location.pathname === item.path ? "bold" : "normal",
+                transition: "0.2s",
+              }}
+            >
+              {item.label}
+            </Link>
+          ))}
         </nav>
-      </header>
+      </aside>
 
-      <main style={{ flex: 1, padding: 24 }}>
-        <Outlet />
-      </main>
-
-      <footer
+      {/* ================= MAIN ================= */}
+      <div
         style={{
-          padding: "12px 24px",
-          borderTop: "1px solid #ddd",
-          fontSize: 12,
-          textAlign: "center",
+          flex: 1,
+          display: "flex",
+          flexDirection: "column",
+          background: "#f9fafb",
         }}
       >
-        © {new Date().getFullYear()} INOVASI PERCEPATAN PASANG BARU
-      </footer>
+        {/* ============ HEADER ============ */}
+        <header
+          style={{
+            padding: "16px 32px",
+            borderBottom: "1px solid #ddd",
+            background: "#fff",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            position: "sticky",
+            top: 0,
+            zIndex: 10,
+          }}
+        >
+          <span style={{ fontSize: 22, fontWeight: "bold" }}>
+            {currentTitle}
+          </span>
+
+          {/* ===== PROFILE ===== */}
+          <div style={{ position: "relative" }} ref={dropdownRef}>
+            <div
+              onClick={() => setDropdownOpen(!dropdownOpen)}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 12,
+                background: "#f3f4f6",
+                padding: "6px 12px",
+                borderRadius: 12,
+                cursor: "pointer",
+              }}
+            >
+              <img
+                src="https://i.pravatar.cc/50?img=12"
+                alt="profile"
+                style={{
+                  width: 48,
+                  height: 48,
+                  borderRadius: "50%",
+                  objectFit: "cover",
+                  border: "2px solid #1f2937",
+                }}
+              />
+              <div style={{ display: "flex", flexDirection: "column" }}>
+                <span style={{ fontWeight: "bold", fontSize: 14 }}>
+                  Mr. Hendra
+                </span>
+                <span style={{ fontSize: 12, color: "#6b7280" }}>
+                  Manager Unit | 189004875
+                </span>
+              </div>
+            </div>
+
+            {/* ===== DROPDOWN ===== */}
+            {dropdownOpen && (
+              <div
+                style={{
+                  position: "absolute",
+                  top: "calc(100% + 8px)",
+                  right: 0,
+                  background: "#fff",
+                  border: "1px solid #ddd",
+                  borderRadius: 6,
+                  boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
+                  minWidth: 150,
+                  zIndex: 20,
+                  display: "flex",
+                  flexDirection: "column",
+                }}
+              >
+                <Link
+                  to="/profile"
+                  style={{
+                    padding: "8px 12px",
+                    textDecoration: "none",
+                    color: "#111",
+                    fontSize: 14,
+                    borderBottom: "1px solid #eee",
+                  }}
+                >
+                  Profile
+                </Link>
+                <Link
+                  to="/settings"
+                  style={{
+                    padding: "8px 12px",
+                    textDecoration: "none",
+                    color: "#111",
+                    fontSize: 14,
+                    borderBottom: "1px solid #eee",
+                  }}
+                >
+                  Settings
+                </Link>
+                <button
+                  onClick={() => alert("Logout berhasil!")}
+                  style={{
+                    padding: "8px 12px",
+                    border: "none",
+                    background: "transparent",
+                    cursor: "pointer",
+                    textAlign: "left",
+                    fontSize: 14,
+                  }}
+                >
+                  Logout
+                </button>
+              </div>
+            )}
+          </div>
+        </header>
+
+        {/* ============ CONTENT ============ */}
+        <main style={{ flex: 1, padding: 32, overflowY: "auto" }}>
+          <Outlet />
+        </main>
+
+        {/* ============ FOOTER ============ */}
+        <footer
+          style={{
+            padding: "12px 24px",
+            borderTop: "1px solid #ddd",
+            fontSize: 12,
+            textAlign: "center",
+            background: "#fff",
+          }}
+        >
+          © {new Date().getFullYear()} PT X
+        </footer>
+      </div>
     </div>
   );
 };
-
-
