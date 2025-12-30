@@ -5,8 +5,6 @@ import react from "@vitejs/plugin-react-swc";
 export default defineConfig({
   plugins: [react()],
   server: {
-    // allowedHosts: true,
-    
     hmr:
       process.env.CODESANDBOX_SSE || process.env.GITPOD_WORKSPACE_ID
         ? 443
