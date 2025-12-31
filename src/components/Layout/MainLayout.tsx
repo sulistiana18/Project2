@@ -2,6 +2,7 @@ import { Link, Outlet, useLocation } from "react-router-dom";
 import { useState, useRef, useEffect } from "react";
 
 export const MainLayout = () => {
+  
   const location = useLocation();
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -226,6 +227,7 @@ export const MainLayout = () => {
                     cursor: "pointer",
                     textAlign: "left",
                   }}
+                  
                 >
                   Logout
                 </button>

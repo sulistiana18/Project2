@@ -64,38 +64,38 @@ const PasangBaru: React.FC = () => {
 
       <div className="form-container">
         <div className="form-group">
-          <label htmlFor="nama">Alamat Lengkap</label>
-          <input type="text" id="nama" placeholder="Masukkan alamat" autoComplete="off" />
+          <label htmlFor="alamat-lengkap">Alamat Lengkap</label>
+          <input type="text" id="alamat-lengkap" placeholder="Masukkan alamat" autoComplete="off" />
         </div>
 
         <div className="form-group">
-          <label htmlFor="agenda">Detail Alamat</label>
-          <input type="text" id="agenda" placeholder="Masukkan patokan/detail alamat" autoComplete="off" />
+          <label htmlFor="detail-alamat">Detail Alamat</label>
+          <input type="text" id="detail-alamat" placeholder="Masukkan patokan/detail alamat" autoComplete="off" />
         </div>
 
         <div className="form-group">
-          <label htmlFor="alamat">Provinsi</label>
-          <textarea id="alamat" placeholder="Masukkan alamat lengkap..." autoComplete="off" />
+          <label htmlFor="provinsi">Provinsi</label>
+          <textarea id="provinsi" placeholder="Masukkan alamat lengkap..." autoComplete="off" />
         </div>
 
         <div className="form-group">
-          <label htmlFor="Daya">Kabupaten/Kota</label>
-          <input type="text" id="Daya" placeholder="Masukkan besarnya daya" autoComplete="off" />
+          <label htmlFor="kota">Kabupaten/Kota</label>
+          <input type="text" id="kota" placeholder="Masukkan besarnya daya" autoComplete="off" />
         </div>
 
         <div className="form-group">
-          <label htmlFor="Fasa">Kecamatan</label>
-          <input type="text" id="Fasa" placeholder="Masukkan Fasa" autoComplete="off" />
+          <label htmlFor="kecamatan">Kecamatan</label>
+          <input type="text" id="kecamatan" placeholder="Masukkan Fasa" autoComplete="off" />
         </div>
 
         <div className="form-group">
-          <label htmlFor="Fasa">Desa/Kelurahan</label>
-          <input type="text" id="Fasa" placeholder="Masukkan Fasa" autoComplete="off" />
+          <label htmlFor="desa">Desa/Kelurahan</label>
+          <input type="text" id="desa" placeholder="Masukkan Fasa" autoComplete="off" />
         </div>
 
         <div className="form-group">
-          <label htmlFor="Fasa">Unit Layanan PLN</label>
-          <input type="text" id="Fasa" placeholder="Masukkan Fasa" autoComplete="off" />
+          <label htmlFor="unit">Unit Layanan PLN</label>
+          <input type="text" id="unit" placeholder="Masukkan Fasa" autoComplete="off" />
         </div>
       </div>
 

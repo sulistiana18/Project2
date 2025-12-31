@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+
+const loginAPI = async (email: string, password: string) => {
+};
+
 const LoginPage: React.FC = () => {
   const navigate = useNavigate();
   const [hoverBtn, setHoverBtn] = useState(false);
