@@ -178,7 +178,7 @@ export const MainLayout = () => {
                   width: 44,
                   height: 44,
                   borderRadius: "50%",
-                  border: "2px solid #00c2ff",
+                  border: "1p solid #00c2ff",
                 }}
               />
               <div>
