@@ -12,6 +12,9 @@ import PermohonanPage from "./pages/PermohonanPage";
 import LoginPage from "./pages/LoginPage";
 import TopBarLayout from "./components/Layout/TopBarLayout";
 import RegisterPage from "./pages/RegisterPage";
+import DataPermohonan from "./pages/DataPermohonan";
+import SambungSementara from "./pages/SambungSementara";
+
 
 const App: React.FC = () => {
   return (
@@ -25,9 +28,11 @@ const App: React.FC = () => {
       <Route element={<MainLayout />}>
         <Route path="dashboard" element={<DashboardPage />} />
         <Route path="permohonan" element={<PermohonanPage />} />
+        <Route path="dataPermohonan" element={<DataPermohonan />} />
         <Route path="cek-order" element={<CekOrderFormPage />} />
         <Route path="data-material" element={<DataMaterialTek />} />
         <Route path="pasang-baru" element={<PasangBaru />} />
+        <Route path="sambung-sementara" element={<SambungSementara />} />
         <Route path="*" element={<NotFoundPage />} />
       </Route>
     </Routes>

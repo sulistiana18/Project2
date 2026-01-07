@@ -19,6 +19,7 @@ export const MainLayout = () => {
     "/sambung-sementara": "Sambung Sementara",
     "/ubah-daya": "Ubah Daya",
     "/balik-nama": "Balik Nama",
+    "/dataPermohonan": "Data Permohonan",
   };
 
   const currentTitle =
@@ -178,7 +179,7 @@ export const MainLayout = () => {
                   width: 44,
                   height: 44,
                   borderRadius: "50%",
-                  border: "1p solid #00c2ff",
+                  border: "1p solid #00c2ff",    
                 }}
               />
               <div>
@@ -237,7 +238,7 @@ export const MainLayout = () => {
         </header>
 
         {/* ================= CONTENT ================= */}
-        <main style={{ flex: 1, padding: 36 }}>
+        <main style={{ flex: 1, padding: 36, fontSize: 13 }}>
           <Outlet />
         </main>
 

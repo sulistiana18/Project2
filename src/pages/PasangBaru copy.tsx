@@ -70,21 +70,6 @@ const PasangBaru: React.FC = () => {
   /* ================= RENDER ================= */
   return (
     <div style={{ padding: 20 }}>
-
-      {/* ================= MAP ================= */}
-      <input
-        id="pac-input"
-        className="controls"
-        type="text"
-        placeholder="Search lokasi..."
-      />
-
-      <div id="map" style={{ height: 400, marginBottom: 20 }} />
-
-      <input type="hidden" id="lat" />
-      <input type="hidden" id="lng" />
-
-      
       {/* ================= FORM ================= */}
       <div className="form-container">
         <div className="form-group">
@@ -112,6 +97,19 @@ const PasangBaru: React.FC = () => {
           <input type="text" placeholder="Masukkan fasa" />
         </div>
       </div>
+
+      {/* ================= MAP ================= */}
+      <input
+        id="pac-input"
+        className="controls"
+        type="text"
+        placeholder="Search lokasi..."
+      />
+
+      <div id="map" style={{ height: 400, marginBottom: 20 }} />
+
+      <input type="hidden" id="lat" />
+      <input type="hidden" id="lng" />
 
       
 
