@@ -26,11 +26,11 @@ export const MainLayout = () => {
     pageTitles[location.pathname] || "Permohonan Pelanggan";
 
   const menuItems = [
-    { path: "/Permohonan", label: "Permohonan" },
-    { path: "/DataPermohonan", label: "Data Permohonan" },
-    { path: "/Transaksi", label: "Transaksi" },
+    { path: "/Permohonan",  label: "Permohonan" },
+    { path: "/DataPermohonan", label: "Monitoring Hari Layanan" },
     { path: "/DataMaterial", label: "Data Material Teknik" },
     { path: "/DataMaterialTelTek", label: "Material Tel Tek" },
+    { path: "/MasterGardu", label: "Master Gardu" },
     { path: "/UserManagement", label: "User Management" },
     { path: "/setting", label: "Setting" },
   ];

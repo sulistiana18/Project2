@@ -14,6 +14,8 @@ import TopBarLayout from "./components/Layout/TopBarLayout";
 import RegisterPage from "./pages/RegisterPage";
 import DataPermohonan from "./pages/DataPermohonan";
 import SambungSementara from "./pages/SambungSementara";
+import UbahDaya from "./pages/UbahDaya";
+import BalikNama from "./pages/BalikNama";
 
 
 const App: React.FC = () => {
@@ -33,6 +35,8 @@ const App: React.FC = () => {
         <Route path="data-material" element={<DataMaterialTek />} />
         <Route path="pasang-baru" element={<PasangBaru />} />
         <Route path="sambung-sementara" element={<SambungSementara />} />
+        <Route path="ubah-daya" element={<UbahDaya />} />
+        <Route path="balik-nama" element={<BalikNama />} />
         <Route path="*" element={<NotFoundPage />} />
       </Route>
     </Routes>
