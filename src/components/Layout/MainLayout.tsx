@@ -31,6 +31,7 @@ export const MainLayout = () => {
     { path: "/DataMaterial", label: "Data Material Teknik" },
     { path: "/DataMaterialTelTek", label: "Material Tel Tek" },
     { path: "/MasterGardu", label: "Master Gardu" },
+    { path: "/MasterGardu", label: "Pelanggan Bermasalah" },
     { path: "/UserManagement", label: "User Management" },
     { path: "/setting", label: "Setting" },
   ];
